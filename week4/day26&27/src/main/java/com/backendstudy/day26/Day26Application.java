@@ -3,7 +3,7 @@ package com.backendstudy.day26;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.backendstudy")
 public class Day26Application {
 
 	public static void main(String[] args) {
