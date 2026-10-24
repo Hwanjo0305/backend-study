@@ -1,9 +1,11 @@
 package com.backendstudy.day27;
 
+import com.backendstudy.day34.TodoNotFoundException;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class TodoService {
@@ -28,8 +30,7 @@ public class TodoService {
         Todo todo = todoRepository.findById(id);
 
         if(todo == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Todo not found");
+            throw new TodoNotFoundException(id);
         };
         return todo;
     }
