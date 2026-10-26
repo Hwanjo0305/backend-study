@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController 
 @RequestMapping ("/todos")
@@ -15,22 +16,30 @@ public class TodoController {
     }
 
     @GetMapping
-    public List<Todo> getTodos() {
-        return todoService.getAllTodos();
+    public List<TodoResponse> getTodos() {
+        return todoService.getAllTodos()
+                .stream()
+                .map(TodoResponse::from)
+                .toList();
     }
 
     @GetMapping ("/{id}")
-    public Todo getTodo(@PathVariable Long id) {
-        return todoService.getTodo(id);
+    public TodoResponse getTodo(@PathVariable Long id) {
+        Todo todo = todoService.getTodo(id);
+        return TodoResponse.from(todo);
     }
 
     @PutMapping("/{id}")
-    public Todo updateTodo(
+    public TodoResponse updateTodo(
         @PathVariable Long id, 
         @RequestBody UpdateTodoRequest request
     ) {
-        return todoService.updateTodo(id, request.title(), request.completed()
-    );
+        Todo todo = todoService.updateTodo(
+            id,
+            request.title(),
+            request.completed()
+        );
+        return TodoResponse.from(todo);
     }
 
     @DeleteMapping ("/{id}")
@@ -41,8 +50,11 @@ public class TodoController {
 
     @PostMapping 
     @ResponseStatus (HttpStatus.CREATED)
-    public Todo createTodo(@RequestBody CreateTodoRequest request) {
-        return todoService.createTodo(request.title());
+    public TodoResponse createTodo(
+        @Valid @RequestBody CreateTodoRequest request
+    ) {
+        Todo todo = todoService.createTodo(request.title());
+        return TodoResponse.from(todo);
     }
     
 }

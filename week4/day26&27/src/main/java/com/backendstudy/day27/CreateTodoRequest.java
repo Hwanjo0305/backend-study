@@ -1,5 +1,10 @@
 package com.backendstudy.day27;
 
-public record CreateTodoRequest(String title) {
-    
+import jakarta.validation.constraints.NotBlank;
+
+public record CreateTodoRequest(
+    @NotBlank(message = "제목은 필수입니다.")
+    String title
+) {
+
 }
