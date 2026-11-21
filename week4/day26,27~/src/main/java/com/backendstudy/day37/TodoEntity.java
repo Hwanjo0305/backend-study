@@ -39,4 +39,8 @@ public class TodoEntity {
     public boolean isCompleted() {
         return completed;
     }
+    public void update(String title, boolean completed) {
+        this.title = title;
+        this.completed = completed;
+    }
 }
